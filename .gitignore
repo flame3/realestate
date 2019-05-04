@@ -1,5 +1,8 @@
-/Pods
-/ProgressHUB
-.Podfile
-.Podfile.lock
+*/Pods
+ProgressHUB/
+Podfile
+Podfile.lock
 Constants*
+*.DS_Store
+*.xcsheme
+*.xcuserstate

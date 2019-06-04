@@ -79,9 +79,17 @@ class propertyCVCell: UICollectionViewCell {
         if property.imageLinks != "" && property.imageLinks != nil{
             // download images
             
+            downloadImages(urls: property.imageLinks!) { (images) in
+                
+                self.loadingIndicator.stopAnimating()
+                self.loadingIndicator.isHidden = true
+                self.propertyIV.image = images.first!
+                
+            }
+            
         }else{
             
-            self.soldIV.image = UIImage(named: "propertyPlaceholder")
+            self.propertyIV.image = UIImage(named: "propertyPlaceholder")
             self.loadingIndicator.isHidden = true
             
         }

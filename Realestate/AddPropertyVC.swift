@@ -10,12 +10,13 @@ import UIKit
 import ImagePicker
 
 
-class AddPropertyVC: UIViewController, ImagePickerDelegate {
-   
+class AddPropertyVC: UIViewController,UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource,CLLocationManagerDelegate, ImagePickerDelegate, MapViewDelegate {
+    
     
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var topvView: UIView!
+    
     @IBOutlet weak var referenceCodeTF: UITextField!
     @IBOutlet weak var bathroomTF: UITextField!
     @IBOutlet weak var roomsTF: UITextField!
@@ -41,6 +42,20 @@ class AddPropertyVC: UIViewController, ImagePickerDelegate {
     @IBOutlet weak var airConditionerSW: UISwitch!
     @IBOutlet weak var furnishedSW: UISwitch!
     
+    var yearArray: [Int] = []
+    var datePicker: UIDatePicker!
+    var propertyTypePicker = UIPickerView()
+    var advertisementTypePicker = UIPickerView()
+    var yearPicker = UIPickerView()
+    
+    var locationManager: CLLocationManager?
+    var locationCoordinates: CLLocationCoordinate2D?
+    
+    var activeField: UITextField?
+    
+    
+    var propertyImages: [UIImage] = []
+    
     
     var user: FBUser?
     var titleDeadSWValue = false
@@ -51,6 +66,14 @@ class AddPropertyVC: UIViewController, ImagePickerDelegate {
     var furnishedSWValue = false
     
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        locationManagerStop()
+    }
     
     
     
@@ -63,6 +86,29 @@ class AddPropertyVC: UIViewController, ImagePickerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupYearArray()
+        
+        // setting delegates to self due to pickers
+        referenceCodeTF.delegate = self
+        bathroomTF.delegate = self
+        roomsTF.delegate = self
+        propertySizeTF.delegate = self
+        balconySizeTF.delegate = self
+        parkingTF.delegate = self
+        floorTF.delegate = self
+        addressTF.delegate = self
+        cityTF.delegate = self
+        countryTF.delegate = self
+        advertisementTypeTF.delegate = self
+        availableFromTF.delegate = self
+        buildYearTF.delegate = self
+        propertyTypeTF.delegate = self
+        priceTF.delegate = self
+        titleTF.delegate = self
+        
+        setupPickers()
+        datePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
 
         scrollView.contentSize = CGSize(width: self.view.bounds.width, height: topvView.frame.size.height)
         
@@ -93,14 +139,35 @@ class AddPropertyVC: UIViewController, ImagePickerDelegate {
     
     }
     @IBAction func currentLocationBTN(_ sender: Any) {
+        locationManagerStart()
     }
+    
     @IBAction func mapKitBTN(_ sender: Any) {
+        //show map so the user can pick a location
+        
+        let mapView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "map") as! MapVC
+        
+        mapView.delegate = self
+        
+        self.present(mapView, animated: true, completion: nil)
+        
     }
     
     // MARK: Helper Function
+    func setupYearArray(){
+        for i in 1950...2030{
+            yearArray.append(i)
+        }
+        yearArray.reverse()
+    }
+    
     func save(){
         if titleTF.text != "" && referenceCodeTF.text != "" && advertisementTypeTF.text != "" && propertyTypeTF.text != "" && priceTF.text != ""{
+            
+            
             var newProperty = Property()
+            
+            ProgressHUD.show("Saving...")
             newProperty.referenceCode = referenceCodeTF.text!
             newProperty.ownerId = user?.objectID
             newProperty.title = titleTF.text!
@@ -141,6 +208,12 @@ class AddPropertyVC: UIViewController, ImagePickerDelegate {
             if descriptionTV.text != "" && descriptionTV.text != "Description"{
                 newProperty.propertyDescription = descriptionTV.text!
             }
+            if locationCoordinates != nil{
+                newProperty.latitutude = locationCoordinates!.latitude
+                newProperty.longitutude = locationCoordinates!.longitude
+            }
+            
+            
             
             newProperty.titleDeeds = titleDeadSWValue
             newProperty.centralHeating = centralHeatingSWValue
@@ -149,9 +222,21 @@ class AddPropertyVC: UIViewController, ImagePickerDelegate {
             newProperty.storeRoom = storeRoomSWValue
             newProperty.isFurnished = furnishedSWValue
             
-            newProperty.saveProperty()
-            ProgressHUD.showSuccess("Saved")
             //check for property images
+            
+            if propertyImages.count != 0{
+                uploadImages(images: propertyImages, userId: user!.objectID, referenceNum: newProperty.referenceCode!) { (linkString) in
+                    newProperty.imageLinks = linkString
+                    newProperty.saveProperty()
+                    ProgressHUD.showSuccess("Saved")
+                    self.dismissView()
+                }
+                
+            }else{
+                newProperty.saveProperty()
+                ProgressHUD.showSuccess("Saved")
+                self.dismissView()
+            }
             
             // create new property
         }else{
@@ -162,6 +247,10 @@ class AddPropertyVC: UIViewController, ImagePickerDelegate {
         
     }
     
+    func dismissView(){
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mainVC") as! UITabBarController
+        present(vc, animated: true, completion: nil)
+    }
     
     // SWitches
     @IBAction func titleDeedSW(_ sender: Any) {
@@ -186,18 +275,194 @@ class AddPropertyVC: UIViewController, ImagePickerDelegate {
     
     // MARK: Image Picker Delegate
     func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        let imagePickerController = ImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.imageLimit = kMAXIMAGENUMBER
+        
+        present(imagePickerController, animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         
     }
     
     func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
         
+        propertyImages = images
+        self.dismiss(animated: true, completion: nil)
     }
     
     func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
-        
+        self.dismiss(animated: true, completion: nil)
     }
 
+    // MARK: PickerView
+    
+    func setupPickers(){
+        yearPicker.delegate = self
+        propertyTypePicker.delegate = self
+        advertisementTypePicker.delegate = self
+        datePicker.datePickerMode = .date
+        
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+        
+        let flexibleBar = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.doneButtonPressed))
+        
+        toolBar.setItems([flexibleBar, doneButton], animated: true)
+        buildYearTF.inputAccessoryView = toolBar
+        buildYearTF.inputView = yearPicker
+        
+        availableFromTF.inputAccessoryView = toolBar
+        availableFromTF.inputView = datePicker
+        
+        propertyTypeTF.inputAccessoryView = toolBar
+        propertyTypeTF.inputView = propertyTypePicker
+        
+        advertisementTypeTF.inputAccessoryView = toolBar
+        advertisementTypeTF.inputView = advertisementTypePicker
+    }
+    
+    @objc func doneButtonPressed(){
+        self.view.endEditing(true)
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        
+        if pickerView == propertyTypePicker{
+            return propertyTypes.count
+        }
+        
+        if pickerView == advertisementTypePicker{
+            return advertisementTypes.count
+        }
+        
+        if pickerView == yearPicker{
+            return yearArray.count
+            
+        }
+        
+        return 0
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        
+        
+        if pickerView == propertyTypePicker{
+            return propertyTypes[row]
+        }
+        
+        if pickerView == advertisementTypePicker{
+            return advertisementTypes[row]
+        }
+        
+        if pickerView == yearPicker{
+            return "\(yearArray[row])"
+            
+        }
+        return ""
+        
+
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        var rowValue = row
+        if pickerView == propertyTypePicker{
+            if rowValue == 0{ rowValue = 1 }
+            propertyTypeTF.text = propertyTypes[rowValue]
+
+        }
+        
+        if pickerView == advertisementTypePicker{
+            if rowValue == 0{ rowValue = 1 }
+            advertisementTypeTF.text = advertisementTypes[rowValue]
+        }
+        
+        
+        if pickerView == yearPicker{
+            buildYearTF.text = "\(yearArray[row])"
+        }
+        
+    }
+    
+    @objc func dateChanged(_ sender: UIDatePicker){
+        let components = Calendar.current.dateComponents([.year, .month, .day], from: sender.date)
+        if activeField == availableFromTF{
+            availableFromTF.text = "\(components.day!)\(components.month!)\(components.year!)"
+        }
+    }
+    
+    // MARK: UITextField Delegate
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        activeField = textField
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+       // textField = nil
+    }
+    
+    // MARK: Location Manager
+    
+    func locationManagerStart(){
+    
+    if locationManager == nil{
+        locationManager = CLLocationManager()
+        locationManager!.delegate = self
+        locationManager!.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager!.requestWhenInUseAuthorization()
+    
+    }
+        locationManager?.startUpdatingLocation()
+    }
+    func locationManagerStop(){
+        
+        if locationManager != nil{
+            locationManager!.stopUpdatingLocation()
+        }
+        
+    
+    }
     
     
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Failed to get the location")
+    }
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status{
+        case .notDetermined:
+            manager.requestWhenInUseAuthorization()
+            break
+        case .authorizedWhenInUse:
+            manager.startUpdatingLocation()
+            break
+        case .authorizedAlways:
+            manager.startUpdatingLocation()
+            break
+        case .restricted:
+            
+            break
+        case .denied:
+            locationManager = nil
+            print("location denied")
+            // show user a notification to enable location in settings
+            ProgressHUD.showError("Please enable location from the settings")
+            break
+            
+        }
+    }
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        locationCoordinates = locations.last!.coordinate
+    }
+    
+    //MARK: Map View Delegate
+    
+    func didFinishWith(coordinate: CLLocationCoordinate2D) {
+        self.locationCoordinates = coordinate   
+    }
 }

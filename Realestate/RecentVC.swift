@@ -37,7 +37,9 @@ class RecentVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     
     // MARK: Collection View Datasource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print(properties.count)
         return properties.count
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -58,7 +60,10 @@ class RecentVC: UIViewController, UICollectionViewDelegate, UICollectionViewData
     // MARK: Collection view Delegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // show property
+        let propertyView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Property") as! PropertyVC
         
+        propertyView.property = properties[indexPath.row]
+        self.present(propertyView, animated: true, completion: nil)
         
     }
     

@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import FirebaseDatabase
 
 
 class FBUser {
@@ -180,7 +181,7 @@ class FBUser {
 
 
 func saveUserInBackground(fUser: FBUser){
-    let ref = firebase.child(kUser).child(fUser.objectID)
+    let ref = Database.database().reference().child(kUser).child(fUser.objectID)
     ref.setValue(userDictonaryFrom(user: fUser))
 }
 
@@ -192,7 +193,7 @@ func saveUserLocally(fbUser: FBUser){
 
 //Mark: Helper Functions
 func fetchUserWith(userId: String, completion: @escaping (_ user: FBUser?)-> Void){
-    firebase.child(kUser).queryOrdered(byChild: kObjectId).queryEqual(toValue: userId).observeSingleEvent(of: .value) { (snapshot) in
+    Database.database().reference().child(kUser).queryOrdered(byChild: kObjectId).queryEqual(toValue: userId).observeSingleEvent(of: .value) { (snapshot) in
         if snapshot.exists(){
             let userDictionary = ((snapshot.value as! NSDictionary).allValues as NSArray).firstObject as! NSDictionary
             let user = FBUser(_dictionary: userDictionary)
@@ -216,7 +217,7 @@ func updateCurrentUser(withValues: [String: Any], withBlock: @escaping (_ succes
         let currentUser = FBUser.currentUser()
         let userObject = userDictonaryFrom(user: currentUser!).mutableCopy() as! NSMutableDictionary
         userObject.setValuesForKeys(withValues)
-        let ref = firebase.child(kUser).child((currentUser?.objectID)!)
+        let ref = Database.database().reference().child(kUser).child((currentUser?.objectID)!)
         ref.updateChildValues(withValues) { (error, ref) in
             if error != nil{
                 withBlock(false)

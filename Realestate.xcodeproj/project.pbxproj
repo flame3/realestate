@@ -10,6 +10,9 @@
 		592FE22A226D4F51000709B4 /* ProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 592FE228226D4F51000709B4 /* ProgressHUD.bundle */; };
 		592FE22B226D4F51000709B4 /* ProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 592FE229226D4F51000709B4 /* ProgressHUD.m */; };
 		593D7300226AC30200BAFAA5 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593D72FF226AC30200BAFAA5 /* Settings.swift */; };
+		594A094F22805EED00CF4F97 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 594A094E22805EED00CF4F97 /* CoreLocation.framework */; };
+		594A0951228075C100CF4F97 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594A0950228075C100CF4F97 /* MapVC.swift */; };
+		595FB674227F156600D712E2 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595FB673227F156600D712E2 /* Downloader.swift */; };
 		59736B122272B65700E1F71B /* RecentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59736B112272B65700E1F71B /* RecentVC.swift */; };
 		59736B142272B7CE00E1F71B /* propertyCVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59736B132272B7CE00E1F71B /* propertyCVCell.swift */; };
 		597B6B5B2278788100659F96 /* property.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597B6B5A2278788100659F96 /* property.swift */; };
@@ -25,6 +28,7 @@
 		59D30B3A224B0F6400D82432 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59D30B39224B0F6400D82432 /* Assets.xcassets */; };
 		59D30B3D224B0F6400D82432 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59D30B3B224B0F6400D82432 /* LaunchScreen.storyboard */; };
 		59D30B47224B15F600D82432 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59D30B46224B15F600D82432 /* GoogleService-Info.plist */; };
+		59F297882280B8D9005A6FE0 /* PropertyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F297872280B8D9005A6FE0 /* PropertyVC.swift */; };
 		E56FACCB52F3C995FD99B817 /* Pods_Realestate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38CFF0394DF98122F50B6DF7 /* Pods_Realestate.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +39,9 @@
 		592FE228226D4F51000709B4 /* ProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ProgressHUD.bundle; sourceTree = "<group>"; };
 		592FE229226D4F51000709B4 /* ProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressHUD.m; sourceTree = "<group>"; };
 		593D72FF226AC30200BAFAA5 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = "../New Group/Settings.swift"; sourceTree = "<group>"; };
+		594A094E22805EED00CF4F97 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		594A0950228075C100CF4F97 /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
+		595FB673227F156600D712E2 /* Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
 		59736B112272B65700E1F71B /* RecentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentVC.swift; sourceTree = "<group>"; };
 		59736B132272B7CE00E1F71B /* propertyCVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = propertyCVCell.swift; sourceTree = "<group>"; };
 		597B6B5A2278788100659F96 /* property.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = property.swift; sourceTree = "<group>"; };
@@ -54,6 +61,7 @@
 		59D30B3E224B0F6400D82432 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59D30B46224B15F600D82432 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		59D30B48224B202100D82432 /* Realestate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Realestate.entitlements; sourceTree = "<group>"; };
+		59F297872280B8D9005A6FE0 /* PropertyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyVC.swift; sourceTree = "<group>"; };
 		BDE5D078CE4152F20A7AA578 /* Pods-Realestate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Realestate.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Realestate/Pods-Realestate.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -62,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				594A094F22805EED00CF4F97 /* CoreLocation.framework in Frameworks */,
 				59BC81B2227DC4F0009AB607 /* ImagePicker.framework in Frameworks */,
 				59BC81B0227DC3E9009AB607 /* IDMPhotoBrowser.framework in Frameworks */,
 				E56FACCB52F3C995FD99B817 /* Pods_Realestate.framework in Frameworks */,
@@ -94,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				59D031DD2266735200C6511E /* Constants.swift */,
+				595FB673227F156600D712E2 /* Downloader.swift */,
 				593D72FF226AC30200BAFAA5 /* Settings.swift */,
 			);
 			path = Settings;
@@ -132,7 +142,9 @@
 				59D30B48224B202100D82432 /* Realestate.entitlements */,
 				59D30B2F224B0F5F00D82432 /* AppDelegate.swift */,
 				59D031DF22667A6B00C6511E /* RegisterVC.swift */,
+				59F297872280B8D9005A6FE0 /* PropertyVC.swift */,
 				59736B112272B65700E1F71B /* RecentVC.swift */,
+				594A0950228075C100CF4F97 /* MapVC.swift */,
 				597B6B5E2278B19700659F96 /* AddPropertyVC.swift */,
 				59D30B33224B0F5F00D82432 /* Main.storyboard */,
 				59736B132272B7CE00E1F71B /* propertyCVCell.swift */,
@@ -152,6 +164,7 @@
 		5CA70674D66E46F2A966CF60 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				594A094E22805EED00CF4F97 /* CoreLocation.framework */,
 				59BC81B1227DC4F0009AB607 /* ImagePicker.framework */,
 				59BC81AF227DC3E9009AB607 /* IDMPhotoBrowser.framework */,
 				38CFF0394DF98122F50B6DF7 /* Pods_Realestate.framework */,
@@ -259,37 +272,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Realestate/Pods-Realestate-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/DACircularProgress/DACircularProgress.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/IDMPhotoBrowser/IDMPhotoBrowser.framework",
-				"${BUILT_PRODUCTS_DIR}/ImagePicker/ImagePicker.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
-				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
-				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-				"${BUILT_PRODUCTS_DIR}/pop/pop.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Realestate/Pods-Realestate-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DACircularProgress.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IDMPhotoBrowser.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImagePicker.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/pop.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Realestate/Pods-Realestate-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Realestate/Pods-Realestate-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Realestate/Pods-Realestate-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -301,7 +293,10 @@
 			files = (
 				597B6B5B2278788100659F96 /* property.swift in Sources */,
 				593D7300226AC30200BAFAA5 /* Settings.swift in Sources */,
+				594A0951228075C100CF4F97 /* MapVC.swift in Sources */,
+				595FB674227F156600D712E2 /* Downloader.swift in Sources */,
 				59D30B38224B0F5F00D82432 /* Realestate.xcdatamodeld in Sources */,
+				59F297882280B8D9005A6FE0 /* PropertyVC.swift in Sources */,
 				59D031E222669FCD00C6511E /* FBUser.swift in Sources */,
 				59736B122272B65700E1F71B /* RecentVC.swift in Sources */,
 				59736B142272B7CE00E1F71B /* propertyCVCell.swift in Sources */,

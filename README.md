@@ -1,3 +1,3 @@
-# realestate
+# Realestate
 
-## This is the markdown file
+## This is a proof of concept showcasing local properties
